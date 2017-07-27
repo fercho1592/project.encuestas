@@ -1,0 +1,41 @@
+{% extends 'cuestionario/base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+<script type="text/javascript" src='{% static "scripts/cuestionario/editaCuestionario_index.js" %}'></script>
+{% endblock %}
+
+{% block content %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="container-fluid form">
+				<h3>Cuestionario: </h3>
+				{{ cuestionario.nombre }}
+			</div>
+		</div>
+		{% for p in preguntas.all %}
+		<div class="container-fluid form" id="p{{ pregunta.pk }}">
+			<div class="row">
+				<div class="col-md-6">
+					<label for="pregunta">Pregunta</label>	
+					<input type="text" name="pregunta" value="{{ pregunta.texto }}" class="form-control cuesElemento">
+				</div>
+				<div class="col-md-6">
+					{% for res in repuestas %}
+					<input type="text" name="r{{res.pk}}" value="{{res.texto}}" class="form-control cuesElemento">
+					{% endfor %}
+					<input type="text" name="rNueva" class="form-control cuesElemento">
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<div class="container-fluid form" id="pN">
+			<div class="row">
+				<div class="col-md-6">
+					<label for="pregunta">Pregunta</label>
+					<input type="text" name="pregunta" class="form-control cuesElemento">
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

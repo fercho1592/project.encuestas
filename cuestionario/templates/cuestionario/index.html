@@ -1,0 +1,30 @@
+{% extends 'cuestionario/base.html' %}
+
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Cuestionarios</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<ul>
+				{% for cues in cuestionarios %}
+					<li><a href="{{cues.pk}}">{{ cues.nombre }}</a></li>
+				{% empty %}
+			    	<li>No hay cuestionarios</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<form method="post" action="/cuestionario/nuevoCuestionario/" class="col-md-12">
+			{% csrf_token %}
+			<input type="text" name="nombre" class="form-control">
+			<input type="submit" value="Nuevo" class="button-ui">
+		</form>
+	</div>
+</div>
+{% endblock %}
