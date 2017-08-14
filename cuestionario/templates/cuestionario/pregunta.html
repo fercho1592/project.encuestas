@@ -1,0 +1,9 @@
+<div class="row panel">
+    <div class="col-md-6 pregunta form" id="p{{pregunta.pk}}">
+        {% csrf_token %}
+        <label for="pregunta">Pregunta</label>	
+        <input type="text" name="pregunta" value="{{ pregunta.texto }}" class="form-control cuesElemento">
+    </div>
+    <div class="col-md-6 respuestas">
+    </div>
+</div>
