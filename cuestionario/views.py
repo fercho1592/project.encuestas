@@ -49,34 +49,32 @@ def EditaCuestionario(request,pk):
 	c = Cuestionario.objects.get(pk=pk)
 	preguntas = c.preguntas
 
-	if request.method != 'POST':
-		form = CuestionarioForm(instance=c)
-	else:
-		form = CuestionarioForm(request.POST,instance=c)
-		if form.is_valid():
-			form.save()
+	if request.method == 'POST':
+		c.nombre = request.POST.get("cuestionario")
+		c.save()
 
-	return render(request,'cuestionario/cuestionarioForm.html',{'cuestionario':form, 'preguntas':preguntas})
+	return render(request,'cuestionario/cuestionarioForm.html',{'cuestionario':c, 'preguntas':preguntas})
 #*****************************************************
 
 def NuevaPregunta(request):
 	preg = Pregunta(texto=request.POST.get('pregunta'))
 	preg.save()
+	cues = Cuestionario.objects.get(pk=request.POST.get('cuestionario'))
+	cues.preguntas.add(preg)
 
-	return redirect('/cuestionario/pregunta/{0}'.format(preg.pk))
+	return redirect('/cuestionario/p{0}'.format(preg.pk))
 
 def EditaPregunta(request,pk):
 	p = Pregunta.objects.get(pk=pk)
-	rs = rs.respuestas
+	rs = p.respuestas.all()
 
 	if request.method == 'POST':
+		print("*************************************++")
 		p.texto = request.POST.get('pregunta')
 		#Compara las preguntas a ver si son las mismas y las que no, las separamos
 		#Las que separemos las buscamos en la base de datos y se las asignamos
 		#Si no las encuentra crea una nueva y la guarda en la base de datos
 
-		p.save();
+		p.save()
 
-	rs = rs.respuestas	
-
-	return render(request,'cuestionario/pregunta.html',{'pregunta':pregunta, 'repuestas':rs})
+	return render(request,'cuestionario/pregunta.html',{'pregunta':p, 'repuestas':rs})

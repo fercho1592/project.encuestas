@@ -54,4 +54,4 @@ class Cuestionario(models.Model):
 	preguntas = models.ManyToManyField(Pregunta)
 
 	def __str__(self):
-		return self.nombr
+		return self.nombre
