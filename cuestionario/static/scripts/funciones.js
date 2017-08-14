@@ -16,7 +16,7 @@ function ErrorFunction(jqXHR, exception) {
         msg = 'Uncaught Error.\n' + jqXHR.responseText;
     }
 
-    return msg;
+    alert(msg);
 }
 
 
