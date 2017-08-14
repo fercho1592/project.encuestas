@@ -1,72 +1,35 @@
 /**
- * @fileoverview Menú aprMenu, desplegable con efecto expansión suavizado
- *
- * @version                               2.2
- *
- * @author                 César Krall <cesarkrall@aprenderaprogramar.com>
- * @copyright           aprenderaprogramar.com
+ * @version   0.1
+ * @author    Fernando Alvarez Flores <feral1592@gmail.com>
  *
  * History
- * v0.1 – Se mejoró el efecto de expansión de los submenús dándole efecto aceleración
- *
- * La primera versión Fernando Alvarez Flores
-        */
+ * v0.1 - La primera versión Fernando Alvarez Flores
+ **/
 
 $().ready(function()
 {
-	//Cuando se pulse enter o un boton, hacer que se mande esa informacion al server y 
-	//poner la respuesta en donde estaba ese bloke, ademas crea otro objeto abajo de 
-	//este para crear otra pregunta
-	$("input").keyup(function(e){
-	    if(e.keyCode == 13)
-	    {
-	    	var sig = buscaSiguente($(this));
-	    	if(sig!==null)
-	    		sig.focus();
-	    	else
-	    		$(this).blur();
-	    }
-	});
-
-	$("input[name$='pregunta']").blur(function(){
-		var valor = $(this).val();
-		if("pN"==$(this).parents(".form").attr("id"))
-		{
-			$.ajax({
-		        type: "POST",
-		        url: "",
-		        contentType: "application/json; charset=utf-8",
-		        data: {pregunta : valor,},
-		        dataType: "json",
-		        success: function (resultado) {
-		            $("#dataBaseStatus").text(resultado);
-		        },
-		        error: ErrorFunction
-		        beforeSend: Wait,
-		        complete: Continue,
-		    });
-			//Crea nueva pregunta y carga la respuesta del servidor
-			//Cambia el focus a la primera pregunta
-			console.log(1);
-		}
-		else
-		{
-			//Modifica el valor de la pregunta
-			console.log(0);
-		}
+	$.each($(".id_pregunta"),function(){
+		var url = "/cuestionario/p"+$(this).text();
+		$.ajax({
+			url: url,
+			async: false,
+			success:function(data, textStatus, jqXHR,$anterior=1){
+				$("#preguntas").append(data);
+				//Carga las respuestas
+			},
+			error:ErrorFunction,
+			beforeSend: Wait,
+			complete: Continue,
+		});
+		$(this).remove();
 	})
+
+	inicializa();
 });
 
-
-/**
- * El comentario comienza con una barra y dos asteriscos.
-* Cada nueva línea lleva un asterisco al comienzo.
- * @param {string} nombre indica que una función recibe un parámetro de tipo string y que
-          * el nombre del parámetro es nombre.
- * @descriptor Cada descriptor que añadamos irá en una línea independiente.
-        */        
-function buscaSiguente($elemento)
-{
+//Se encarga de buscar el siguiente elemento a modificar
+//@param {jQuery object} $elemento -> objeto actual
+function buscaSiguente($elemento){
 	var sig =null;
 	var father = $elemento.parents(".form");
     var brothers = father.children(".cuesElemento");
@@ -85,4 +48,42 @@ function buscaSiguente($elemento)
     }
 
     return sig;
+}
+
+function inicializa(){
+	$("input[name$='pregunta']").change(function(){
+		var form = $(this).parents(".form");
+		var data = form.children().serialize();
+		var url = "/cuestionario/"+form.attr("id");
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: data,
+			success:function(data, textStatus, jqXHR,$anterior=form){
+				$anterior.parents(".panel").before(data);
+				$anterior.parents(".panel").remove();
+				inicializa();
+			},
+			error:ErrorFunction,
+		});
+	});
+
+	//Cuando se desea agregar una nueva pregunta
+	$("#pN input[name$='pregunta']").change(function(){
+		var form = $(this).parents(".form");
+		var data = form.children().serialize();
+
+		$.ajax({
+			type: "POST",
+			url: "/cuestionario/pN/",
+			data: data,
+			success:function(resultado,$anterior=1){
+				$("#preguntas").append(resultado);
+			},
+			error:ErrorFunction,
+		});
+
+		$(this).val("");
+	});
 }
