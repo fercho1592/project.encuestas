@@ -1,10 +1,5 @@
-{% block content %}
-<form method="POST">
+<div class="col-md-9 form" id="r{{respuesta.pk}}">
 	{% csrf_token %}
-	<div class"col-md-10"><label for="{{form.texto.id_for_label}}">Pregunta:</label>{{ form.texto }}</div>
-	<button type="submit">Guardar</button>
-	{% if form.pk is not None %}
-	<button>Eliminar</button>
-	{% endif %}
-</form>
-{% endblock %}
+	<p class="hidden">{{r.pk}}</p>
+	<input type="text" name="respuesta" class="form-control" value="{{ r.texto }}">
+</div>

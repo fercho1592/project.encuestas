@@ -12,19 +12,27 @@
 				<h3>Cuestionario: {{ cuestionario.nombre }}</h3>
 			</div>
 		</div>
-		<div class="row" id="preguntas">
-		<!--Preguntas registradas-->
-		{% for p in preguntas.all %}
-		<p class="id_pregunta">{{p.pk}}</p>
-		{% endfor %}
-		</div>
+
+		<table class="table table-hover table-bordered">
+			<thead>
+				<th class="text-center" width="50%">Pregunta</th>
+				<th class="text-center">Respuestas</th>
+			</thead>
+			<tbody id="preguntas">
+				{% for p in preguntas.all %}
+				<tr class="id_pregunta">
+					<td colspan="2"><p>{{p.pk}}</p></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
 		<!-- Pregunta nueva-->
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-12">
 				<div id="pN" class="form">
 					{% csrf_token %}
-					<label for="pregunta">Pregunta</label>
+					<label for="pregunta">Nueva Pregunta</label>
 					<input type="text" name="pregunta" class="form-control cuesElemento">
 					<input type="number" name="cuestionario" class="hidden" value="{{cuestionario.pk}}">
 					{{cuestionario.cleaned_data}}

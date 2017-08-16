@@ -25,14 +25,12 @@ def NuevaRespuesta(request):
 
 def EditaRespuesta(request, pk):
 	r = Respuesta.objects.get(pk=pk)
-	if request.method != 'POST':
-		form = RespuestaForm(instance=r)
-	else:
+	if request.method == 'POST':
 		form = RespuestaForm(request.POST,instance=r)
 		if form.is_valid():
 			form.save()
 
-	return render(request,'cuestionario/respuestaForm.html',{'form':form})
+	return render(request,'cuestionario/respuestaForm.html',{'r':r})
 #*****************************************************
 
 #Crea un nuevo cuestionario
@@ -69,7 +67,6 @@ def EditaPregunta(request,pk):
 	rs = p.respuestas.all()
 
 	if request.method == 'POST':
-		print("*************************************++")
 		p.texto = request.POST.get('pregunta')
 		#Compara las preguntas a ver si son las mismas y las que no, las separamos
 		#Las que separemos las buscamos en la base de datos y se las asignamos
@@ -77,4 +74,4 @@ def EditaPregunta(request,pk):
 
 		p.save()
 
-	return render(request,'cuestionario/pregunta.html',{'pregunta':p, 'repuestas':rs})
+	return render(request,'cuestionario/pregunta.html',{'pregunta':p, 'respuestas':rs})

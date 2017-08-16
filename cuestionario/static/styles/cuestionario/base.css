@@ -1,4 +1,7 @@
-﻿
+﻿td{
+	min-height: 50%;
+}
+
 footer{
 	background-color: lightgray;
 }

@@ -13,9 +13,8 @@ $().ready(function()
 		$.ajax({
 			url: url,
 			async: false,
-			success:function(data, textStatus, jqXHR,$anterior=1){
+			success:function(data, textStatus, jqXHR){
 				$("#preguntas").append(data);
-				//Carga las respuestas
 			},
 			error:ErrorFunction,
 			beforeSend: Wait,
@@ -23,6 +22,22 @@ $().ready(function()
 		});
 		$(this).remove();
 	})
+
+	$.each($(".id_respuesta"),function(){
+		var url = "/cuestionario/r"+$(this).text();
+		var father = $(this).parent();
+		$.ajax({
+			url: url,
+			async: false,
+			success:function(data, textStatus, jqXHR ,$anterior=father){
+				$anterior.append(data);
+			},
+			error:ErrorFunction,
+			beforeSend: Wait,
+			complete: Continue,
+		});
+		$(this).remove();
+	});
 
 	inicializa();
 });
@@ -51,6 +66,7 @@ function buscaSiguente($elemento){
 }
 
 function inicializa(){
+	//Cuando se modifica una pregunta
 	$("input[name$='pregunta']").change(function(){
 		var form = $(this).parents(".form");
 		var data = form.children().serialize();
@@ -85,5 +101,17 @@ function inicializa(){
 		});
 
 		$(this).val("");
+	});
+
+	//Cuando se preciona enter se deselecciona la entrada
+	$("input").keyup(function(e){
+	    if(e.keyCode == 13)
+	    {
+	    	var sig = buscaSiguente($(this));
+	    	if(sig!==null)
+	    		sig.focus();
+	    	else
+	    		$(this).blur();
+	    }
 	});
 }

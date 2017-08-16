@@ -1,9 +1,23 @@
-<div class="row panel">
-    <div class="col-md-6 pregunta form" id="p{{pregunta.pk}}">
+<tr>
+    <td class="pregunta form" id="p{{pregunta.pk}}" >
         {% csrf_token %}
-        <label for="pregunta">Pregunta</label>	
         <input type="text" name="pregunta" value="{{ pregunta.texto }}" class="form-control cuesElemento">
-    </div>
-    <div class="col-md-6 respuestas">
-    </div>
-</div>
+    </td>
+    <td class="container-fluid ">        
+        <div class="respuestas row">
+            <div class="container-fluid">
+                {% for r in respuestas.all %}
+                <div class="row">
+                    <div class="col-md-1 col-md-offset-1"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <p class="id_respuesta">{{r.pk}}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1" id="rN">
+                <input name="respuesta" type="text" class="form-control">
+            </div>
+        </div>
+    </td>
+</tr>
