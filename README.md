@@ -15,13 +15,14 @@ Profesor|En cuanto escriba una pregunta se genere un espacio para otra pregunta|
 Profesor|En cuanto termine de modificar un campo se guarde automaticamente en la base de datos|Hacer los cambios mas agilmente
 
 ## Virtual env
-```
-# Activate virtual env
-source env/bin/activate
+Action |CMD
+-------|--------
+Activate|`source env/bin/activate`
+Deactivate|`deactivate`
 
-#Deactivate virtual env
-deactivate
-```
+-------|-------
+|
+|
 
 ## Installation
 ```
