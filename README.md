@@ -17,8 +17,8 @@ Profesor|En cuanto termine de modificar un campo se guarde automaticamente en la
 ## Virtual env
 Action |CMD
 -------|--------
-Create env| `python3 -m venv encuestas-env`
-Activate|`source ./encuestas-env/bin/activate`
+Create env| `python3 -m venv .venv`
+Activate|`source ./.venv/bin/activate`
 Deactivate|`deactivate`
 
 ## Installation
