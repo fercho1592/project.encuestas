@@ -20,10 +20,6 @@ Action |CMD
 Activate|`source env/bin/activate`
 Deactivate|`deactivate`
 
--------|-------
-|
-|
-
 ## Installation
 ```
 pip3 install --trusted-host files.pythonhosted.org --trusted-host pypi.org --trusted-host pypi.python.org -r Requirements.txt
