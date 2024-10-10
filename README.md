@@ -14,18 +14,41 @@ Profesor|En cuanto escriba una pregunta se genere el espacio para escribir las r
 Profesor|En cuanto escriba una pregunta se genere un espacio para otra pregunta|no tener que picar un boton cada vez que quiera una nueva
 Profesor|En cuanto termine de modificar un campo se guarde automaticamente en la base de datos|Hacer los cambios mas agilmente
 
-## Requerimientos del sistema
-* Sistema Operativo
-  * Ubuntu 16.04.2 LTS
-* python 3
-* django 1.11.2
-* SQLite
+## Virtual env
+```
+# Activate virtual env
+source env/bin/activate
 
-## Instalacion y Uso
+#Deactivate virtual env
+deactivate
+```
 
----
-**Fernando Alvarez Flores**
+## Installation
+```
+pip3 install --trusted-host files.pythonhosted.org --trusted-host pypi.org --trusted-host pypi.python.org -r Requirements.txt
+```
+or
+```
+pip install -r Requirements.txt
+```
 
-**[@silver1592](https://github.com/silver1592)**
+## Run project
+1. Start migration to create SQLite tables
+    ```
+    python ./src/manage.py migrate
+    ```
+2. Create a superuser
+   ```
+   python ./src/manage.py createsuperuser
+   ```
+3. Run server
+    ```
+    python ./src/manage.py runserver
+    ```
+4. Go to `http://127.0.0.1:8000/admin` and login with user created on first step
 
-**feral1592@gmail.com**
+
+
+**Fernando Alvarez Flores** :
+[@silver1592](https://github.com/silver1592) |
+feral1592@gmail.com
